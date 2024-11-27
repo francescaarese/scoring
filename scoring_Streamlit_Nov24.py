@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 import io
+import openpyxl
 
 # Title of the app
 st.title("Community Scoring App")
