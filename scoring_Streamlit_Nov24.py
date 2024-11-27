@@ -11,10 +11,9 @@ st.title("Community Scoring App")
 st.markdown("""
 ### Instructions:
 1. Upload your input company data Excel file (with an 'Employee History' column).
-2. Ensure the `VCtop.txt` file containing the Top VCs list is stored in the same directory as this app.
-3. Adjust the weights of scoring parameters as needed.
-4. Click "Process Data" to calculate scores and view results.
-5. Download the updated Excel file with scores and see the community metrics (median & average).
+2. Adjust the weights of scoring parameters as needed. THE SUM OF THE WEIGHTS MUST BE 1.
+4. Click "Process Data" to calculate average and median scores of the list you uploaded.
+5. Download the Excel file with scores.
 """)
 
 # Function to load Top VCs from a file
