@@ -92,100 +92,46 @@ def score_vc(company):
     return 10 if count > 1 else 8 if count == 1 else 0
 
 
+
 def score_funding_valuation(company):
     valuation = company['Last Known Valuation']
-    if valuation >= 1000:
+    if valuation >= 10000:
         return 10
-    elif valuation >= 500:
+    elif valuation >= 5000:
         return 9
-    elif valuation >= 400:
+    elif valuation >= 1000:
         return 8
-    elif valuation > 300:
+    elif valuation > 900:
         return 5
-    elif valuation > 200:
+    elif valuation > 800:
         return 4
-    elif valuation > 100:
+    elif valuation > 700:
         return 3
+    elif valuation > 600:
+        return 2
+    elif valuation >= 500:
+        return 1
     else:
         return 0
-
-# def score_funding_valuation(company):
-#     valuation = company['Last Known Valuation']
-#     if valuation >= 10000:
-#         return 10
-#     elif valuation >= 5000:
-#         return 9
-#     elif valuation >= 1000:
-#         return 8
-#     elif valuation > 900:
-#         return 5
-#     elif valuation > 800:
-#         return 4
-#     elif valuation > 700:
-#         return 3
-#     elif valuation > 600:
-#         return 2
-#     elif valuation >= 500:
-#         return 1
-#     else:
-#         return 0
-
-# def score_raised(company):
-#     raised = company['Total Raised']
-#     if raised >= 1000:
-#         return 10
-#     elif raised > 500:
-#         return 8
-#     elif raised > 300:
-#         return 7
-#     elif raised > 200:
-#         return 6
-#     elif raised > 100:
-#         return 5
-#     elif raised >= 50:
-#         return 4
-#     else:
-#         return 0
 
 def score_raised(company):
     raised = company['Total Raised']
-    if raised >= 100:
+    if raised >= 1000:
         return 10
-    elif raised > 90:
+    elif raised > 500:
         return 8
-    elif raised > 80:
+    elif raised > 300:
         return 7
-    elif raised > 50:
+    elif raised > 200:
         return 6
-    elif raised > 30:
+    elif raised > 100:
         return 5
-    elif raised >= 10:
+    elif raised >= 50:
         return 4
     else:
         return 0
 
 
-
-
-# def recent_financing(company, reference_date_str):
-#     # Parse the reference date
-#     reference_date = datetime.strptime(reference_date_str, '%Y-%m-%d')
-#     # Check if 'Last Financing Date' is within the last 12 months
-#     last_financing_date = pd.to_datetime(company['Last Financing Date'], errors='coerce')
-#     recent_raise = 0
-#     large_financing = 0
-
-#     if pd.notna(last_financing_date) and last_financing_date > reference_date - timedelta(days=365):
-#         # 1 point for raising in the last 12 months
-#         recent_raise = 5
-
-#         # Check if 'Last Financing Size' > 500
-#         last_financing_size = company.get('Last Financing Size', 0)
-#         if pd.notna(last_financing_size) and last_financing_size > 500:
-#             large_financing = 5
-
-#     # Combine points
-#     return recent_raise + large_financing
 
 def recent_financing(company, reference_date_str):
     # Parse the reference date
@@ -201,11 +147,13 @@ def recent_financing(company, reference_date_str):
 
         # Check if 'Last Financing Size' > 500
         last_financing_size = company.get('Last Financing Size', 0)
-        if pd.notna(last_financing_size) and last_financing_size > 20:
+        if pd.notna(last_financing_size) and last_financing_size > 500:
             large_financing = 5
 
     # Combine points
     return recent_raise + large_financing
+
+
 
 
 def check_hq_location(company):
@@ -255,6 +203,73 @@ def evaluate_company_growth(row):
             return 3
         else:
             return 0
+        
+        # %%
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FFIfty edits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+
+# FFifty
+# def score_funding_valuation(company):
+#     valuation = company['Last Known Valuation']
+#     if valuation >= 1000:
+#         return 10
+#     elif valuation >= 500:
+#         return 9
+#     elif valuation >= 400:
+#         return 8
+#     elif valuation > 300:
+#         return 5
+#     elif valuation > 200:
+#         return 4
+#     elif valuation > 100:
+#         return 3
+#     else:
+#         return 0
+
+
+# FFifty
+# def score_raised(company):
+#     raised = company['Total Raised']
+#     if raised >= 100:
+#         return 10
+#     elif raised > 90:
+#         return 8
+#     elif raised > 80:
+#         return 7
+#     elif raised > 50:
+#         return 6
+#     elif raised > 30:
+#         return 5
+#     elif raised >= 10:
+#         return 4
+#     else:
+#         return 0
+
+
+# FFIfty
+# def recent_financing(company, reference_date_str):
+#     # Parse the reference date
+#     reference_date = datetime.strptime(reference_date_str, '%Y-%m-%d')
+#     # Check if 'Last Financing Date' is within the last 12 months
+#     last_financing_date = pd.to_datetime(company['Last Financing Date'], errors='coerce')
+#     recent_raise = 0
+#     large_financing = 0
+
+#     if pd.notna(last_financing_date) and last_financing_date > reference_date - timedelta(days=365):
+#         # 1 point for raising in the last 12 months
+#         recent_raise = 5
+
+#         # Check if 'Last Financing Size' > 500
+#         last_financing_size = company.get('Last Financing Size', 0)
+#         if pd.notna(last_financing_size) and last_financing_size > 20:
+#             large_financing = 5
+
+#     # Combine points
+#     return recent_raise + large_financing
+
+
+
+# %%%
 
 def score_emerging_and_verticals(company):
     # Check if 'Emerging Spaces' is not empty
