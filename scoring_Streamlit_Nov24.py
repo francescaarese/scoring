@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 import io
-import openpyxl
 
 # Title of the app
 st.title("Community Scoring App")
@@ -11,9 +10,10 @@ st.title("Community Scoring App")
 st.markdown("""
 ### Instructions:
 1. Upload your input company data Excel file (with an 'Employee History' column).
-2. Adjust the weights of scoring parameters as needed. THE SUM OF THE WEIGHTS MUST BE 1.
-4. Click "Process Data" to calculate average and median scores of the list you uploaded.
-5. Download the Excel file with scores.
+2. Ensure the `VCtop.txt` file containing the Top VCs list is stored in the same directory as this app.
+3. Adjust the weights of scoring parameters as needed.
+4. Click "Process Data" to calculate scores and view results.
+5. Download the updated Excel file with scores and see the community metrics (median & average).
 """)
 
 # Function to load Top VCs from a file
@@ -94,43 +94,98 @@ def score_vc(company):
 
 def score_funding_valuation(company):
     valuation = company['Last Known Valuation']
-    if valuation >= 10000:
+    if valuation >= 1000:
         return 10
-    elif valuation >= 5000:
-        return 9
-    elif valuation >= 1000:
-        return 8
-    elif valuation > 900:
-        return 5
-    elif valuation > 800:
-        return 4
-    elif valuation > 700:
-        return 3
-    elif valuation > 600:
-        return 2
     elif valuation >= 500:
-        return 1
+        return 9
+    elif valuation >= 400:
+        return 8
+    elif valuation > 300:
+        return 5
+    elif valuation > 200:
+        return 4
+    elif valuation > 100:
+        return 3
     else:
         return 0
+
+# def score_funding_valuation(company):
+#     valuation = company['Last Known Valuation']
+#     if valuation >= 10000:
+#         return 10
+#     elif valuation >= 5000:
+#         return 9
+#     elif valuation >= 1000:
+#         return 8
+#     elif valuation > 900:
+#         return 5
+#     elif valuation > 800:
+#         return 4
+#     elif valuation > 700:
+#         return 3
+#     elif valuation > 600:
+#         return 2
+#     elif valuation >= 500:
+#         return 1
+#     else:
+#         return 0
+
+# def score_raised(company):
+#     raised = company['Total Raised']
+#     if raised >= 1000:
+#         return 10
+#     elif raised > 500:
+#         return 8
+#     elif raised > 300:
+#         return 7
+#     elif raised > 200:
+#         return 6
+#     elif raised > 100:
+#         return 5
+#     elif raised >= 50:
+#         return 4
+#     else:
+#         return 0
 
 def score_raised(company):
     raised = company['Total Raised']
-    if raised >= 1000:
+    if raised >= 100:
         return 10
-    elif raised > 500:
+    elif raised > 90:
         return 8
-    elif raised > 300:
+    elif raised > 80:
         return 7
-    elif raised > 200:
+    elif raised > 50:
         return 6
-    elif raised > 100:
+    elif raised > 30:
         return 5
-    elif raised >= 50:
+    elif raised >= 10:
         return 4
     else:
         return 0
 
 
+
+
+# def recent_financing(company, reference_date_str):
+#     # Parse the reference date
+#     reference_date = datetime.strptime(reference_date_str, '%Y-%m-%d')
+#     # Check if 'Last Financing Date' is within the last 12 months
+#     last_financing_date = pd.to_datetime(company['Last Financing Date'], errors='coerce')
+#     recent_raise = 0
+#     large_financing = 0
+
+#     if pd.notna(last_financing_date) and last_financing_date > reference_date - timedelta(days=365):
+#         # 1 point for raising in the last 12 months
+#         recent_raise = 5
+
+#         # Check if 'Last Financing Size' > 500
+#         last_financing_size = company.get('Last Financing Size', 0)
+#         if pd.notna(last_financing_size) and last_financing_size > 500:
+#             large_financing = 5
+
+#     # Combine points
+#     return recent_raise + large_financing
 
 def recent_financing(company, reference_date_str):
     # Parse the reference date
@@ -146,7 +201,7 @@ def recent_financing(company, reference_date_str):
 
         # Check if 'Last Financing Size' > 500
         last_financing_size = company.get('Last Financing Size', 0)
-        if pd.notna(last_financing_size) and last_financing_size > 500:
+        if pd.notna(last_financing_size) and last_financing_size > 20:
             large_financing = 5
 
     # Combine points
@@ -218,6 +273,7 @@ def score_emerging_and_verticals(company):
             'space technology',
             'life sciences',
             'nanotechnology',
+            'quantum computing'
             'autonomous cars'
         }
         # Check if any target keyword is present in the verticals
